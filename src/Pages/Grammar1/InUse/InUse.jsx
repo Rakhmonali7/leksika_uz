@@ -12,7 +12,6 @@ import { TbCalendarEvent } from "react-icons/tb";
 import AdsComponent from "../../../lib/AdSense";
 
 const GrammarInUse = () => {
-
   // Get ID from URL
   var query = window.location.href;
   var parts = query.split("/");
@@ -32,14 +31,14 @@ const GrammarInUse = () => {
 
 function Unit(props) {
   // const id = props.id
-   var query = window.location.href;
-   var parts = query.split("/");
-   var id = parts[parts.length - 1];
+  var query = window.location.href;
+  var parts = query.split("/");
+  var id = parts[parts.length - 1];
   const [html, setHtml] = useState("");
   useEffect(() => {
     async function getfile() {
       const data = await findFile(id);
-      setHtml(await data.base64);
+      setHtml(await data.body);
     }
     getfile();
   }, [id]);

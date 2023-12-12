@@ -1,0 +1,17 @@
+.profile-header {
+  height: 400px;
+  width: 80%;
+  margin: auto;
+}
+.avatar-style {
+  position: absolute;
+  bottom: 50px;
+  left: 50px;
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  align-items: end;
+}
+.avatar-text {
+  margin-bottom: 10px;
+}

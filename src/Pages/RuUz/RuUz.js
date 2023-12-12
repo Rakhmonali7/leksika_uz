@@ -9,15 +9,7 @@ const RuUz = (props) => {
   React.useEffect(() => {
     function getRuUz(word) {
       axios
-        .get(
-          `https://cors-anywhere-lake.vercel.app/uz.wiktionary.org/w/index.php?title=${word}&action=raw`,
-          {
-            headers: {
-              "Access-Control-Allow-Origin": "*",
-              Origin: "https://uz.wiktionary.org/",
-            },
-          }
-        )
+        .get(`https://api.leksika.uz/words/ru-uz?s=${word}`)
         .then(function (response) {
           setError(false);
 

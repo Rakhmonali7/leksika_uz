@@ -70,7 +70,7 @@ function ResulComponent(props) {
       <div
         className={classes.description}
         style={{ lineHeight: 1.8 }}
-        dangerouslySetInnerHTML={{ __html: props.data.desc }}
+        dangerouslySetInnerHTML={{ __html: props.data.description }}
       ></div>
 
       <Example word={props.data.word} />

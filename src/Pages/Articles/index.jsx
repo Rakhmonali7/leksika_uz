@@ -172,8 +172,8 @@ const Articles = () => {
           {articles.map((article) => {
             return (
               <ArticleCard
-                key={article._id}
-                id={article._id}
+                key={article.id}
+                id={article.id}
                 title={article.title}
                 summary={
                   article.summary ??

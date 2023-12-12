@@ -2,25 +2,19 @@ import "./index.css";
 import "./style.css";
 import React from "react";
 import { useParams } from "react-router-dom";
-import {
-  Box,
-  CircularProgress
-} from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import { BsBook } from "react-icons/bs";
 import {
   TbBrandTelegram,
   TbBrandFacebook,
   TbBrandYoutube,
-  TbBrandGmail
+  TbBrandGmail,
 } from "react-icons/tb";
 const { useState, useEffect } = React;
-const BASE_URI = "https://dictinary-api.vercel.app/api/v1/blog";
 
 const fetchArticle = async (id) => {
   try {
-    const res = await fetch(`${BASE_URI}/${id}`, {
-      headers: { Accept: "application/json" },
-    });
+    const res = await fetch(`https://api.leksika.uz/articles/${id}`);
     return await res.json();
   } catch (error) {
     alert(error.message);
@@ -38,13 +32,13 @@ const Article = () => {
     });
   }, [id]);
 
-  return !article._id ? (
+  return !article.id ? (
     <Box
       sx={{
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "calc(100vh - 80px)"
+        height: "calc(100vh - 80px)",
       }}
     >
       <CircularProgress />
@@ -84,7 +78,7 @@ const Article = () => {
                 <TbBrandYoutube />
               </a>
               <a href="mailto:asqararslonov2008@gmail.com">
-                <TbBrandGmail/>
+                <TbBrandGmail />
               </a>
             </div>
           </div>

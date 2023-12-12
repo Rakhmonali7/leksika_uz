@@ -4,10 +4,16 @@ import { TbArrowsExchange } from "react-icons/tb";
 import Footer from "../Footer/Footer";
 import "./NavBar.css";
 import "./background.css";
+import { useDispatch } from "react-redux";
+import { setAuthModal } from "../../redux/modalSlice";
+import { useAuthUser } from "react-auth-kit";
+import { Avatar } from "antd";
 
 // import { Contact } from '../../Pages/RuUz/RuUz';
 
 function NavBar() {
+  const auth = useAuthUser()();
+  const dispatch = useDispatch();
   const [click, setClick] = useState(false);
   const ref = useRef();
   const handleClick = () => setClick(!click);
@@ -21,7 +27,7 @@ function NavBar() {
     <>
       <nav className="navbar">
         <div className="nav-container">
-          <NavLink  exact to="/en-uz" className="nav-logo">
+          <NavLink exact to="/en-uz" className="nav-logo">
             <svg
               width="300"
               height="60"
@@ -72,11 +78,7 @@ function NavBar() {
                   }
                 }}
               >
-                <a
-                  
-                  href="/en-uz"
-                  className="nav-links"
-                >
+                <a href="/en-uz" className="nav-links">
                   ENG
                   <TbArrowsExchange />
                   UZB
@@ -90,10 +92,7 @@ function NavBar() {
                   }
                 }}
               >
-                <a
-                  href="/ru-uz"
-                  className="nav-links"
-                >
+                <a href="/ru-uz" className="nav-links">
                   RUS
                   <TbArrowsExchange />
                   UZB
@@ -107,11 +106,7 @@ function NavBar() {
                   }
                 }}
               >
-                <a
-                  
-                  href="/articles" 
-                  className="nav-links"
-                >
+                <a href="/articles" className="nav-links">
                   Articles
                 </a>
               </li>
@@ -123,11 +118,7 @@ function NavBar() {
                   }
                 }}
               >
-                <a
-                  
-                  href="/grammar" 
-                  className="nav-links"
-                >
+                <a href="/grammar" className="nav-links">
                   Grammar
                 </a>
               </li>
@@ -139,14 +130,30 @@ function NavBar() {
                   }
                 }}
               >
-                <a
-                  
-                  href="/about"
-                 
-                  className="nav-links"
-                >
+                <a href="/about" className="nav-links">
                   About
                 </a>
+              </li>
+              <li
+                className="nav-item"
+                onClick={() => !auth && dispatch(setAuthModal())}
+              >
+                {auth ? (
+                  <a href="/profile" className="nav-links">
+                    <Avatar
+                      style={{
+                        backgroundColor: "#fde3cf",
+                        color: "#f56a00",
+                      }}
+                    >
+                      {auth?.username?.[0].toUpperCase()}
+                    </Avatar>
+                  </a>
+                ) : (
+                  <p className="nav-links" style={{ cursor: "pointer" }}>
+                    Login
+                  </p>
+                )}
               </li>
             </div>
             {click && <Footer />}

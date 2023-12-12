@@ -19,8 +19,12 @@ import Footer from "../Footer/Footer";
 import { readEngUzb } from "../../lib/fetchData.js";
 import { useEffect } from "react";
 import AdsComponent from "../../lib/AdSense";
+import ModalVisibility from "../ModalVisibility";
+import Profile from "../../Pages/Profile";
+import { useAuthUser } from "react-auth-kit";
 
 function App() {
+  const auth = useAuthUser()();
   useEffect(() => {
     async function fetchMyAPI() {
       let response = await readEngUzb();
@@ -32,6 +36,7 @@ function App() {
 
   return (
     <div className="App">
+      <ModalVisibility />
       <Router>
         <NavBar />
         <main className="pages">
@@ -59,6 +64,7 @@ function App() {
             </Route>
 
             <Route path="/ru-uz" component={Search1} />
+            {auth && <Route path="/profile" component={Profile} />}
             <Route path="/grammar/:id" component={GrammarInUse} />
             <Route path="/grammar" component={Grammar} />
             <Route path="/grammar1" component={GrammarInUse} />
