@@ -15,7 +15,7 @@ const GrammarInUse = () => {
   // Get ID from URL
   var query = window.location.href;
   var parts = query.split("/");
-  var id = parts[parts.length - 1];
+  var id = parts?.[parts.length - 1];
 
   return (
     <div className="grammarItem">

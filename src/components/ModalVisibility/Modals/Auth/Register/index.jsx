@@ -15,7 +15,7 @@ const Register = () => {
     setLoading(true);
     try {
       const res = await axios({
-        url: "http://localhost:4000/auth/register",
+        url: "https://api.leksika.uz/user/sign-up",
         method: "POST",
         data: e,
       });
@@ -31,7 +31,7 @@ const Register = () => {
       dispatch(setAuthModal());
     } catch (error) {
       console.log(error);
-      notification.error({ message: error.response.data.message });
+      notification.error({ message: error.response.data.extraMessage });
     }
     setLoading(false);
   };
@@ -47,6 +47,34 @@ const Register = () => {
       </p>
       <Form onFinish={onFinish}>
         <Form.Item
+          name="name"
+          rules={[
+            {
+              required: true,
+              message: "Please enter name!",
+            },
+          ]}
+        >
+          <Input
+            className="h-[40px] mt-[14px] border border-[#46A358]"
+            placeholder="Name"
+          />
+        </Form.Item>
+        <Form.Item
+          name="surname"
+          rules={[
+            {
+              required: true,
+              message: "Please enter surname!",
+            },
+          ]}
+        >
+          <Input
+            className="h-[40px] mt-[14px] border border-[#46A358]"
+            placeholder="Surname"
+          />
+        </Form.Item>
+        <Form.Item
           name="email"
           rules={[
             {
@@ -61,20 +89,7 @@ const Register = () => {
             type="email"
           />
         </Form.Item>
-        <Form.Item
-          name="username"
-          rules={[
-            {
-              required: true,
-              message: "Please enter username!",
-            },
-          ]}
-        >
-          <Input
-            className="h-[40px] mt-[14px] border border-[#46A358]"
-            placeholder="Username"
-          />
-        </Form.Item>
+
         <Form.Item
           name="password"
           rules={[

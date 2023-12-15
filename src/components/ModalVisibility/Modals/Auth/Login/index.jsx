@@ -15,11 +15,12 @@ const Login = () => {
     setLoading(true);
     try {
       const res = await axios({
-        url: "http://localhost:4000/auth/login",
+        url: "https://api.leksika.uz/user/sign-in",
         method: "POST",
         data: e,
       });
-      const user = res.data;
+      const user = res.data.user;
+
       signIn({
         token: user.token,
         expiresIn: 3600,
@@ -30,7 +31,7 @@ const Login = () => {
       notification.success({ message: user.message });
       dispatch(setAuthModal());
     } catch (error) {
-      notification.error({ message: "Username or password might be wrong!" });
+      notification.error({ message: error.response.data.extraMessage });
     }
     setLoading(false);
   };
@@ -45,17 +46,17 @@ const Login = () => {
       </p>
       <Form onFinish={onFinish}>
         <Form.Item
-          name="username"
+          name="email"
           rules={[
             {
               required: true,
-              message: "Please enter username!",
+              message: "Please enter email!",
             },
           ]}
         >
           <Input
             className="h-[40px] mt-[14px] border border-[#46A358]"
-            placeholder="Username"
+            placeholder="Email"
           />
         </Form.Item>
         <Form.Item

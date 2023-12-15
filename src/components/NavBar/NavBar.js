@@ -1,17 +1,18 @@
 import React, { useRef, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { TbArrowsExchange } from "react-icons/tb";
 import Footer from "../Footer/Footer";
 import "./NavBar.css";
 import "./background.css";
 import { useDispatch } from "react-redux";
 import { setAuthModal } from "../../redux/modalSlice";
-import { useAuthUser } from "react-auth-kit";
-import { Avatar } from "antd";
+import { useAuthUser, useIsAuthenticated, useSignOut } from "react-auth-kit";
+import { Avatar, Dropdown, Modal } from "antd";
 
 // import { Contact } from '../../Pages/RuUz/RuUz';
 
 function NavBar() {
+  const logout = useSignOut();
   const auth = useAuthUser()();
   const dispatch = useDispatch();
   const [click, setClick] = useState(false);
@@ -23,6 +24,7 @@ function NavBar() {
   } else {
     document.body.style.overflowY = "auto";
   }
+
   return (
     <>
       <nav className="navbar">
@@ -136,7 +138,7 @@ function NavBar() {
               </li>
               <li
                 className="nav-item"
-                onClick={() => !auth && dispatch(setAuthModal())}
+                onClick={() => auth && dispatch(setAuthModal())}
               >
                 {auth ? (
                   <a href="/profile" className="nav-links">

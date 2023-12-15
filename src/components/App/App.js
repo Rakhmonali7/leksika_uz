@@ -9,7 +9,6 @@ import {
 import { About } from "../../Pages/About/About";
 import Articles from "../../Pages/Articles/";
 import Article from "../../Pages/Articles/Article";
-import RuUz from "../../Pages/RuUz/RuUz";
 import { NotFound } from "../../components/404/NotFound";
 import Grammar from "../../Pages/Grammar1/Grammar/Grammar";
 import GrammarInUse from "../../Pages/Grammar1/InUse/InUse";
