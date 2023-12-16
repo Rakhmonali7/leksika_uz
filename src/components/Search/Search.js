@@ -10,15 +10,30 @@ import "./AutoComplete.css";
 import "./Search.css";
 import Example from "../Example/Example";
 import AdsComponent from "../../lib/AdSense";
+import { useDispatch } from "react-redux";
+import { setEnUzModal, setUzEnModal } from "../../redux/modalSlice";
+import { useAuthUser } from "react-auth-kit";
+import {
+  useLocation,
+  useHistory,
+} from "react-router-dom/cjs/react-router-dom.min";
 
 function Search() {
+  const history = useHistory();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const [field, setField] = useState(searchParams.get("s") ?? "");
+  const auth = useAuthUser()();
+  const dispatch = useDispatch();
   const [English, setEnglish] = useState([]);
   const [Uzbek, setUzbek] = useState([]);
-
-  const [components, setComponents] = useState();
-  const [examples, setExamples] = useState();
   const [lang, setLang] = useState("English-Uzbek");
-  const [field, setField] = useState("");
+  const [components, setComponents] = useState(
+    searchParams.get("s") && (
+      <Result lang={lang} search={searchParams.get("s")} />
+    )
+  );
+  const [examples, setExamples] = useState();
   const [none, setNone] = useState(false);
   const [data, setData] = useState([]);
   const [autoComponent, setAutoComponent] = useState([]);
@@ -104,6 +119,7 @@ function Search() {
                 if (complete[i] != field) {
                   setField(complete[i]);
                 } else {
+                  history.push(`/en-uz?s=${field}`);
                   setComponents(<Result lang={lang} search={field} />);
                   setAutoComponent([]);
                 }
@@ -119,7 +135,7 @@ function Search() {
         }
       }
       console.log(td);
-      return td
+      return td;
     }
     setAutoComponent(autoComplete(field));
     if (!field) {
@@ -131,6 +147,7 @@ function Search() {
 
   function handleKeyPress(event) {
     if (event.key === "Enter") {
+      history.push(`/en-uz?s=${field}`);
       setComponents(
         <Result lang={lang} search={field} uzb={Uzbek} eng={English} />
       );
@@ -139,76 +156,96 @@ function Search() {
   }
 
   return (
-    <div className="container">
-      <div className="search_con">
-        <button
-          className="search_sel"
-          onClick={() => {
-            setLang((prev) => prev.split("-").reverse().join("-"));
-          }}
-        >
-          <span>
-            {window.innerWidth > 480
-              ? lang.split("-")[0].slice(0, 3).toUpperCase()
-              : lang.split("-")[0]}
-          </span>
-          <TbArrowsExchange />
-          <span>
-            {window.innerWidth > 480
-              ? lang.split("-")[1].slice(0, 3).toUpperCase()
-              : lang.split("-")[1]}
-          </span>
-        </button>
-        <RiSearch2Line
-          className="search-icon"
-          style={{ color: `${field ? "#000" : "#aaa"}` }}
-        />
-        <label className="search-label">
-          <input
-            type="search"
-            aria-labelledby="search-input"
-            className="search_inp"
-            onChange={(e) => setField(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder="Search words here..."
-            value={field}
-          />
-          <RiSearch2Line
-            className="search-mob-icon"
-            onClick={() => {
-              setExamples(<Example word={field ? field : "book"} />);
-              setComponents(
-                <Result lang={lang} search={field} uzb={Uzbek} eng={English} />
- 
-              );
-              setAutoComponent([]);
-            }}
-          />
-        </label>
-        <button
-          className="clear_btn"
-          onClick={() => {
-            setField("");
-          }}
-          aria-label="clear"
-        >
-          <YourSvg
-            style={{
-              padding: "7px 0",
-              margin: "0 auto",
-              width: "30px",
-              display: field ? "block" : "none",
-            }}
-          />
-        </button>
-        {Boolean(autoComponent.length) && (
-          <div
-            className="autoComplete"
-            style={{ display: `${field ? "block" : "none"}` }}
-          >
-            <div className="comp">
-              {autoComponent}
-              {/* <ul>
+    <>
+      <div className="container">
+        <div className="search-wrapper">
+          <div className="search_con">
+            <button
+              className="search_sel"
+              onClick={() => {
+                setLang((prev) => prev.split("-").reverse().join("-"));
+              }}
+            >
+              <span>
+                {window.innerWidth > 480
+                  ? lang.split("-")[0].slice(0, 3).toUpperCase()
+                  : lang.split("-")[0]}
+              </span>
+              <TbArrowsExchange />
+              <span>
+                {window.innerWidth > 480
+                  ? lang.split("-")[1].slice(0, 3).toUpperCase()
+                  : lang.split("-")[1]}
+              </span>
+            </button>
+            <RiSearch2Line
+              className="search-icon"
+              style={{ color: `${field ? "#000" : "#aaa"}` }}
+            />
+            <div className="search-label-wrapper">
+              <label className="search-label">
+                <input
+                  type="search"
+                  aria-labelledby="search-input"
+                  className="search_inp"
+                  onChange={(e) => setField(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  placeholder="Search words here..."
+                  value={field}
+                />
+                <RiSearch2Line
+                  className="search-mob-icon"
+                  onClick={() => {
+                    setExamples(<Example word={field ? field : "book"} />);
+                    setComponents(
+                      <Result
+                        lang={lang}
+                        search={field}
+                        uzb={Uzbek}
+                        eng={English}
+                      />
+                    );
+                    setAutoComponent([]);
+                  }}
+                />
+              </label>
+              {auth && (
+                <button
+                  className="search-mob-btn"
+                  onClick={() => {
+                    lang === "English-Uzbek"
+                      ? dispatch(setEnUzModal())
+                      : dispatch(setUzEnModal());
+                  }}
+                >
+                  +
+                </button>
+              )}
+            </div>
+            <button
+              className="clear_btn"
+              onClick={() => {
+                setField("");
+              }}
+              aria-label="clear"
+            >
+              <YourSvg
+                style={{
+                  padding: "7px 0",
+                  margin: "0 auto",
+                  width: "30px",
+                  display: field ? "block" : "none",
+                }}
+              />
+            </button>
+            {Boolean(autoComponent.length) && (
+              <div
+                className="autoComplete"
+                style={{ display: `${field ? "block" : "none"}` }}
+              >
+                <div className="comp">
+                  {autoComponent}
+                  {/* <ul>
               {field &&
                 ["hello", "hi", "solo"].map((item) => {
                   return (
@@ -219,12 +256,26 @@ function Search() {
                   );
                 })}
             </ul> */}
-            </div>
+                </div>
+              </div>
+            )}
           </div>
-        )}
+          {auth && (
+            <button
+              className="search_add-btn"
+              onClick={() => {
+                lang === "English-Uzbek"
+                  ? dispatch(setEnUzModal())
+                  : dispatch(setUzEnModal());
+              }}
+            >
+              +
+            </button>
+          )}
+        </div>
+        {components}
       </div>
-      {components}
-    </div>
+    </>
   );
 }
 

@@ -13,6 +13,7 @@ const AuthModal = () => {
 
   return (
     <Modal
+      centered
       onCancel={() => dispatch(setAuthModal())}
       closable={false}
       footer={false}

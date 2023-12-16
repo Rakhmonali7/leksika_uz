@@ -6,8 +6,7 @@ import axios from "axios";
 import { useAuthUser } from "react-auth-kit";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useForm } from "antd/es/form/Form";
-
-const { TextArea } = Input;
+import ReactQuill from "react-quill";
 
 const UzEnModal = () => {
   const [form] = useForm();
@@ -29,7 +28,7 @@ const UzEnModal = () => {
       notification.success({ message: user.message });
       dispatch(setUzEnModal());
     } catch (error) {
-      notification.error({ message: error.response.data.extraMessage });
+      notification.error({ message: "Your account has been banned!" });
     }
     form.resetFields();
     setLoading(false);
@@ -37,6 +36,7 @@ const UzEnModal = () => {
 
   return (
     <Modal
+      centered
       open={uzEn}
       onCancel={() => dispatch(setUzEnModal())}
       title="Uz-En word"
@@ -70,14 +70,29 @@ const UzEnModal = () => {
             },
           ]}
         >
-          <TextArea
-            autoSize={{
-              minRows: 3,
-              maxRows: 20,
+          <ReactQuill
+            modules={{
+              toolbar: [
+                ["bold", "italic", "underline", "strike"],
+                ["blockquote", "code-block"],
+
+                [{ header: 1 }, { header: 2 }],
+                [{ list: "ordered" }, { list: "bullet" }],
+                [{ script: "sub" }, { script: "super" }],
+                [{ indent: "-1" }, { indent: "+1" }],
+                [{ direction: "rtl" }],
+
+                [{ size: ["small", false, "large", "huge"] }],
+                [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+                [{ color: [] }, { background: [] }],
+                [{ font: [] }],
+                [{ align: [] }],
+
+                ["clean"],
+              ],
             }}
             placeholder="Description..."
-            maxLength={500}
-            showCount
           />
         </Form.Item>
         <Form.Item>

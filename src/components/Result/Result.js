@@ -6,10 +6,14 @@ import notFound from "./notFound.png";
 import notFoundUzb from "./notFoundUzb.png";
 import Ellipse from "../../static/Ellipse.svg";
 import Example from "../Example/Example";
+import { EditOutlined } from "@ant-design/icons";
+import { useDispatch } from "react-redux";
+import { setEnUzEditModal, setUzEnEditModal } from "../../redux/modalSlice";
 
 function Result(props) {
   const [none, setNone] = useState(false);
   const [data, setData] = useState([]);
+
   useEffect(() => {
     async function fetchAlgo(lang, word) {
       if (lang === "English-Uzbek") {
@@ -37,26 +41,36 @@ function Result(props) {
   if (data.word === 404 && props.lang === "English-Uzbek") {
     return <NotFoundEngUzb />;
   } else if (data.word !== 404 && props.lang === "English-Uzbek") {
-    return <ResulComponent data={data} none={none} />;
+    return <ResulComponent lang={props.lang} data={data} none={none} />;
   }
   if (data.word === 404 && props.lang === "Uzbek-English") {
     return <NotFoundUzbEng />;
   } else if (data.word !== 404 && props.lang === "Uzbek-English") {
-    return <ResulComponent data={data} none={none} />;
+    return <ResulComponent lang={props.lang} data={data} none={none} />;
   }
 }
 function ResulComponent(props) {
+  const dispatch = useDispatch();
   const start = () => {
     var msg = new SpeechSynthesisUtterance(props.data.word);
     msg.voice = speechSynthesis.getVoices().filter(function (voice) {
       return voice.lang === "en-US";
     })[0];
-
     // now say it like you mean it:
     speechSynthesis.speak(msg);
   };
   return (
     <div className={classes.result}>
+      <button
+        onClick={() => {
+          props.lang === "Uzbek-English"
+            ? dispatch(setUzEnEditModal(props.data))
+            : dispatch(setEnUzEditModal(props.data));
+        }}
+        className={classes.search_btn_search}
+      >
+        <EditOutlined />
+      </button>
       <h2>{props.data.word}</h2>
       {props.data.transc && (
         <div className={classes.resultSound}>

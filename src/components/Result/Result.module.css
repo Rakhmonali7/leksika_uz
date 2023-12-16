@@ -16,6 +16,19 @@
   position: relative;
   border-radius: 18px;
 }
+.search_btn_search {
+  margin-left: auto;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #fff;
+  background-color: #01756c;
+  border: none;
+  border-radius: 50%;
+}
 .result h2 {
   font-weight: 600;
   font-size: 32px;

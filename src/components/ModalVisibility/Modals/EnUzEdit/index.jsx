@@ -1,32 +1,29 @@
 import { Button, Form, Input, Modal, Space, notification } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { setEnUzModal } from "../../../../redux/modalSlice";
+import { setEnUzEditModal } from "../../../../redux/modalSlice";
 import { useState } from "react";
 import axios from "axios";
 import { LoadingOutlined } from "@ant-design/icons";
-import { useAuthUser } from "react-auth-kit";
 import { useForm } from "antd/es/form/Form";
 import ReactQuill from "react-quill";
 
-const EnUzModal = () => {
+const EnUzEditModal = () => {
   const [form] = useForm();
-  const auth = useAuthUser()();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  const { enUz } = useSelector((state) => state.modal);
+  const { enUzEdit } = useSelector((state) => state.modal);
 
   const onFinish = async (e) => {
     setLoading(true);
     try {
-      const res = await axios({
-        url: "https://api.leksika.uz/user/new-word/en-uz",
-        method: "POST",
-        data: { ...e, ref_id: auth.id },
+      await axios({
+        url: "https://api.leksika.uz/words/en-uz/edit",
+        method: "PUT",
+        data: { ...enUzEdit.data, ...e },
       });
-      const user = res.data;
 
-      notification.success({ message: user.message });
-      dispatch(setEnUzModal());
+      notification.success({ message: "We're about to view your editings." });
+      dispatch(setEnUzEditModal());
     } catch (error) {
       notification.error({ message: "Your account has been banned!" });
     }
@@ -37,9 +34,9 @@ const EnUzModal = () => {
   return (
     <Modal
       centered
-      open={enUz}
-      onCancel={() => dispatch(setEnUzModal())}
-      title="En-Uz word"
+      open={enUzEdit.open}
+      onCancel={() => dispatch(setEnUzEditModal())}
+      title="En-Uz word edit"
       footer={false}
     >
       <Form
@@ -47,6 +44,11 @@ const EnUzModal = () => {
         onFinish={onFinish}
         layout="vertical"
         autoComplete="off"
+        initialValues={{
+          word: enUzEdit.data?.word,
+          transc: enUzEdit.data?.transc,
+          description: enUzEdit.data?.description,
+        }}
       >
         <Form.Item
           name="word"
@@ -60,7 +62,7 @@ const EnUzModal = () => {
         >
           <Input placeholder="Word..." />
         </Form.Item>
-        {/* <Form.Item
+        <Form.Item
           name="transc"
           label="Transcript"
           rules={[
@@ -71,7 +73,7 @@ const EnUzModal = () => {
           ]}
         >
           <Input placeholder="Transcript..." />
-        </Form.Item> */}
+        </Form.Item>
         <Form.Item
           name="description"
           label="Description"
@@ -109,7 +111,10 @@ const EnUzModal = () => {
         </Form.Item>
         <Form.Item>
           <Space style={{ display: "flex", justifyContent: "end" }}>
-            <Button onClick={() => dispatch(setEnUzModal())} htmlType="button">
+            <Button
+              onClick={() => dispatch(setEnUzEditModal())}
+              htmlType="button"
+            >
               Cancel
             </Button>
             <Button type="primary" htmlType="submit">
@@ -122,4 +127,4 @@ const EnUzModal = () => {
   );
 };
 
-export default EnUzModal;
+export default EnUzEditModal;

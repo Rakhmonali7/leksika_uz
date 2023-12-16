@@ -21,9 +21,11 @@ import AdsComponent from "../../lib/AdSense";
 import ModalVisibility from "../ModalVisibility";
 import Profile from "../../Pages/Profile";
 import { useAuthUser } from "react-auth-kit";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 function App() {
   const auth = useAuthUser()();
+  const client = new QueryClient();
   useEffect(() => {
     async function fetchMyAPI() {
       let response = await readEngUzb();
@@ -34,46 +36,48 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <ModalVisibility />
-      <Router>
-        <NavBar />
-        <main className="pages">
-          <Switch>
-            <Route exact path="/">
-              <Redirect to="/en-uz" />
-            </Route>
-            <Route path="/en-uz">
-              <Search />
-            </Route>
-            <Route path="/about">
-              <About />
-            </Route>
-            <Route path="/articles">
-              <Articles />
-            </Route>
-            <Route path="/articles/search/:text">
-              <Articles />
-            </Route>
-            <Route path="/articles/tag/:tag">
-              <Articles />
-            </Route>
-            <Route path="/article/:id">
-              <Article />
-            </Route>
+    <QueryClientProvider client={client}>
+      <div className="App">
+        <ModalVisibility />
+        <Router>
+          <NavBar />
+          <main className="pages">
+            <Switch>
+              <Route exact path="/">
+                <Redirect to="/en-uz" />
+              </Route>
+              <Route path="/en-uz">
+                <Search />
+              </Route>
+              <Route path="/about">
+                <About />
+              </Route>
+              <Route path="/articles">
+                <Articles />
+              </Route>
+              <Route path="/articles/search/:text">
+                <Articles />
+              </Route>
+              <Route path="/articles/tag/:tag">
+                <Articles />
+              </Route>
+              <Route path="/article/:id">
+                <Article />
+              </Route>
 
-            <Route path="/ru-uz" component={Search1} />
-            {auth && <Route path="/profile" component={Profile} />}
-            <Route path="/grammar/:id" component={GrammarInUse} />
-            <Route path="/grammar" component={Grammar} />
-            <Route path="/grammar1" component={GrammarInUse} />
-            <Route path="*" component={NotFound} />
-          </Switch>
-        </main>
-        <AdsComponent />
-        <Footer />
-      </Router>
-    </div>
+              <Route path="/ru-uz" component={Search1} />
+              {auth && <Route path="/profile" component={Profile} />}
+              <Route path="/grammar/:id" component={GrammarInUse} />
+              <Route path="/grammar" component={Grammar} />
+              <Route path="/grammar1" component={GrammarInUse} />
+              <Route path="*" component={NotFound} />
+            </Switch>
+          </main>
+          <AdsComponent />
+          <Footer />
+        </Router>
+      </div>
+    </QueryClientProvider>
   );
 }
 

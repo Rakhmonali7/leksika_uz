@@ -8,10 +8,12 @@ import { useDispatch } from "react-redux";
 import { setAuthModal } from "../../redux/modalSlice";
 import { useAuthUser, useIsAuthenticated, useSignOut } from "react-auth-kit";
 import { Avatar, Dropdown, Modal } from "antd";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 // import { Contact } from '../../Pages/RuUz/RuUz';
 
 function NavBar() {
+  const history = useHistory();
   const logout = useSignOut();
   const auth = useAuthUser()();
   const dispatch = useDispatch();
@@ -138,10 +140,44 @@ function NavBar() {
               </li>
               <li
                 className="nav-item"
-                onClick={() => auth && dispatch(setAuthModal())}
+                onClick={() => !auth && dispatch(setAuthModal())}
               >
                 {auth ? (
-                  <a href="/profile" className="nav-links">
+                  <Dropdown
+                    menu={{
+                      items: [
+                        {
+                          label: (
+                            <a href="/profile" className="nav-links">
+                              Profile
+                            </a>
+                          ),
+                          key: "0",
+                        },
+                        {
+                          label: (
+                            <p
+                              onClick={() =>
+                                Modal.confirm({
+                                  content:
+                                    "Are you sure that you want to log out?",
+                                  onOk: () => {
+                                    logout();
+                                    history.push("/");
+                                  },
+                                })
+                              }
+                              style={{ color: "red" }}
+                            >
+                              Log out
+                            </p>
+                          ),
+                          key: "1",
+                        },
+                      ],
+                    }}
+                    trigger={["click"]}
+                  >
                     <Avatar
                       style={{
                         backgroundColor: "#fde3cf",
@@ -150,7 +186,7 @@ function NavBar() {
                     >
                       {auth?.username?.[0].toUpperCase()}
                     </Avatar>
-                  </a>
+                  </Dropdown>
                 ) : (
                   <p className="nav-links" style={{ cursor: "pointer" }}>
                     Login

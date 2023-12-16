@@ -1,4 +1,4 @@
-import { Button, Card, Empty, Tag } from "antd";
+import { Button, Card, Empty, Tag, notification } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { setUzEnModal } from "../../../redux/modalSlice";
@@ -7,18 +7,42 @@ import Meta from "antd/es/card/Meta";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuthUser } from "react-auth-kit";
+import { useQuery } from "react-query";
 
 const UzEn = () => {
   const auth = useAuthUser()();
   const { uzEn } = useSelector((state) => state.modal);
-  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    axios(
-      `https://api.leksika.uz/user/new-word/uz-en/get?ref_id=${auth?.id ?? ""}`
-    ).then((res) => setData(res.data.data));
-  }, [uzEn, auth]);
+  const { data = [] } = useQuery(
+    ["/uz-en", uzEn],
+    () =>
+      axios(
+        `https://api.leksika.uz/user/new-word/uz-en/get?ref_id=${
+          auth?.id ?? ""
+        }`
+      ).then((res) => res.data.data),
+    { refetchOnWindowFocus: false }
+  );
+
+  // useEffect(() => {
+  //   try {
+  //     axios(
+  //       `https://api.leksika.uz/user/new-word/uz-en/get?ref_id=${
+  //         auth?.id ?? ""
+  //       }`
+  //     )
+  //       .then((res) => setData(res.data.data))
+  //       .catch((err) => {
+  //         console.log(err);
+  //         notification.error({ message: err.response.data.extraMessage });
+  //       });
+  //   } catch (error) {
+  //     console.log(error);
+  //     notification.error({ message: error.message });
+  //   }
+  // }, [uzEn]);
 
   return (
     <div className="en_uz_container">
@@ -44,7 +68,16 @@ const UzEn = () => {
               // <DeleteOutlined key="delete" />,
             ]}
           >
-            <Meta title={value.word} description={value.description} />
+            <Meta
+              title={value.word}
+              description={
+                <div>
+                  <div
+                    dangerouslySetInnerHTML={{ __html: value.description }}
+                  ></div>
+                </div>
+              }
+            />
           </Card>
         ))
       ) : (

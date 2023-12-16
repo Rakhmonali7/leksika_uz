@@ -1,6 +1,7 @@
 import "./style.css";
 import EnUz from "./En-uz";
 import UzEn from "./Uz-en";
+import "react-quill/dist/quill.snow.css";
 
 const Profile = () => {
   return (

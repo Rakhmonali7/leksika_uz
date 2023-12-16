@@ -6,6 +6,14 @@ const modalSlice = createSlice({
     authModal: false,
     enUz: false,
     uzEn: false,
+    enUzEdit: {
+      open: false,
+      data: {},
+    },
+    uzEnEdit: {
+      open: false,
+      data: {},
+    },
   },
   reducers: {
     setAuthModal(state) {
@@ -17,8 +25,20 @@ const modalSlice = createSlice({
     setUzEnModal(state) {
       state.uzEn = !state.uzEn;
     },
+    setEnUzEditModal(state, { payload }) {
+      state.enUzEdit = { open: !state.enUzEdit.open, data: payload };
+    },
+    setUzEnEditModal(state, { payload }) {
+      state.uzEnEdit = { open: !state.uzEnEdit.open, data: payload };
+    },
   },
 });
 
-export const { setAuthModal, setEnUzModal, setUzEnModal } = modalSlice.actions;
+export const {
+  setAuthModal,
+  setEnUzModal,
+  setUzEnModal,
+  setEnUzEditModal,
+  setUzEnEditModal,
+} = modalSlice.actions;
 export default modalSlice.reducer;
