@@ -22,6 +22,7 @@ import ModalVisibility from "../ModalVisibility";
 import Profile from "../../Pages/Profile";
 import { useAuthUser } from "react-auth-kit";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtoolsPanel } from "react-query/devtools";
 
 function App() {
   const auth = useAuthUser()();
@@ -37,6 +38,7 @@ function App() {
 
   return (
     <QueryClientProvider client={client}>
+      {/* <ReactQueryDevtoolsPanel /> */}
       <div className="App">
         <ModalVisibility />
         <Router>

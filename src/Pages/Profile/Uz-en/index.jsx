@@ -1,8 +1,8 @@
 import { Button, Card, Empty, Tag, notification } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { setUzEnModal } from "../../../redux/modalSlice";
-// import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { setUzEnEditStackModal, setUzEnModal } from "../../../redux/modalSlice";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import Meta from "antd/es/card/Meta";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -64,7 +64,10 @@ const UzEn = () => {
             }}
             actions={[
               <Tag color="warning">{value.status}</Tag>,
-              // <EditOutlined key="edit" />,
+              <EditOutlined
+                onClick={() => dispatch(setUzEnEditStackModal(value))}
+                key="edit"
+              />,
               // <DeleteOutlined key="delete" />,
             ]}
           >

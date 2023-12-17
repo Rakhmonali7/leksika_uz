@@ -165,6 +165,7 @@ function NavBar() {
                                     logout();
                                     history.push("/");
                                   },
+                                  okText: "Log Out",
                                 })
                               }
                               style={{ color: "red" }}
