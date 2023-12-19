@@ -10,6 +10,7 @@ import {
   TbBrandYoutube,
   TbBrandGmail,
 } from "react-icons/tb";
+import axios from "axios";
 const { useState, useEffect } = React;
 
 const fetchArticle = async (id) => {
@@ -27,6 +28,10 @@ const Article = () => {
   const [article, setArticle] = useState({});
 
   useEffect(() => {
+    axios("https://api.leksika.uz/articles/view", {
+      method: "PUT",
+      data: { id },
+    }).catch(() => {});
     fetchArticle(id).then((article) => {
       setArticle(article);
     });

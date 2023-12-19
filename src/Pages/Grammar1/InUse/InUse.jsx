@@ -10,6 +10,7 @@ import twitter from "../../../static/twitter.svg";
 import { BsBook } from "react-icons/bs";
 import { TbCalendarEvent } from "react-icons/tb";
 import AdsComponent from "../../../lib/AdSense";
+import axios from "axios";
 
 const GrammarInUse = () => {
   // Get ID from URL

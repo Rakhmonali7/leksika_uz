@@ -22,6 +22,10 @@ const modalSlice = createSlice({
       open: false,
       data: {},
     },
+    verificationModal: {
+      open: false,
+      data: {},
+    },
   },
   reducers: {
     setAuthModal(state) {
@@ -45,6 +49,12 @@ const modalSlice = createSlice({
     setUzEnEditStackModal(state, { payload }) {
       state.uzEnStackEdit = { open: !state.uzEnStackEdit.open, data: payload };
     },
+    setVerificationModal(state, { payload }) {
+      state.verificationModal = {
+        open: !state.verificationModal.open,
+        data: payload,
+      };
+    },
   },
 });
 
@@ -56,5 +66,6 @@ export const {
   setUzEnEditModal,
   setEnUzEditStackModal,
   setUzEnEditStackModal,
+  setVerificationModal,
 } = modalSlice.actions;
 export default modalSlice.reducer;

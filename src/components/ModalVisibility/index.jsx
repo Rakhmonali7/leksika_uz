@@ -5,6 +5,7 @@ import EnUzEditStackModal from "./Modals/EnUzEditStack";
 import UzEnModal from "./Modals/UzEn";
 import UzEnEditModal from "./Modals/UzEnEdit";
 import UzEnEditStackModal from "./Modals/UzEnEditStack";
+import Verification from "./Modals/Verification";
 
 const ModalVisibility = () => {
   return (
@@ -16,6 +17,7 @@ const ModalVisibility = () => {
       <UzEnEditModal />
       <EnUzEditStackModal />
       <UzEnEditStackModal />
+      <Verification />
     </>
   );
 };

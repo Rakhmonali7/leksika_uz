@@ -5,7 +5,7 @@ import "react-quill/dist/quill.snow.css";
 
 const Profile = () => {
   return (
-    <div>
+    <div style={{ marginBottom: "100px" }}>
       <div className="main-profile-wrapper">
         <EnUz />
         <div className="divider" />

@@ -8,7 +8,12 @@ import Ellipse from "../../static/Ellipse.svg";
 import Example from "../Example/Example";
 import { EditOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
-import { setEnUzEditModal, setUzEnEditModal } from "../../redux/modalSlice";
+import {
+  setAuthModal,
+  setEnUzEditModal,
+  setUzEnEditModal,
+} from "../../redux/modalSlice";
+import { useAuthUser } from "react-auth-kit";
 
 function Result(props) {
   const [none, setNone] = useState(false);
@@ -50,6 +55,7 @@ function Result(props) {
   }
 }
 function ResulComponent(props) {
+  const auth = useAuthUser()();
   const dispatch = useDispatch();
   const start = () => {
     var msg = new SpeechSynthesisUtterance(props.data.word);
@@ -61,17 +67,26 @@ function ResulComponent(props) {
   };
   return (
     <div className={classes.result}>
-      <button
-        onClick={() => {
-          props.lang === "Uzbek-English"
-            ? dispatch(setUzEnEditModal(props.data))
-            : dispatch(setEnUzEditModal(props.data));
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          width: "100%",
         }}
-        className={classes.search_btn_search}
       >
-        <EditOutlined />
-      </button>
-      <h2>{props.data.word}</h2>
+        <h2>{props.data.word}</h2>
+        <button
+          onClick={() => {
+            if (!auth) return dispatch(setAuthModal());
+            props.lang === "Uzbek-English"
+              ? dispatch(setUzEnEditModal(props.data))
+              : dispatch(setEnUzEditModal(props.data));
+          }}
+          className={classes.search_btn_search}
+        >
+          <EditOutlined />
+        </button>
+      </div>
       {props.data.transc && (
         <div className={classes.resultSound}>
           <HiOutlineVolumeUp

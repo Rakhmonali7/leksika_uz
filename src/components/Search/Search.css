@@ -191,6 +191,7 @@ input[type="search"]::-webkit-search-results-decoration {
     background-color: #01756c;
     border: none;
     border-radius: 50%;
+    font-size: 20px;
   }
   .search_inp {
     width: 80%;
@@ -225,5 +226,6 @@ input[type="search"]::-webkit-search-results-decoration {
   }
   .search_add-btn {
     display: none;
+    font-size: 60px;
   }
 }

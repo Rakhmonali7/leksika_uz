@@ -1,34 +1,29 @@
 import { Form, Input, notification } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
-import { useSignIn } from "react-auth-kit";
 import { useState } from "react";
 import axios from "axios";
-import { setAuthModal } from "../../../../../redux/modalSlice";
+import {
+  setAuthModal,
+  setVerificationModal,
+} from "../../../../../redux/modalSlice";
 
 const Register = () => {
   const dispatch = useDispatch();
-  const signIn = useSignIn();
   const [loading, setLoading] = useState(false);
 
   const onFinish = async (e) => {
     setLoading(true);
     try {
-      const res = await axios({
+      await axios({
         url: "https://api.leksika.uz/user/sign-up",
         method: "POST",
         data: e,
       });
-      const user = res.data;
-      signIn({
-        token: user.token,
-        expiresIn: 3600,
-        tokenType: "Bearer",
-        authState: user.user,
-      });
 
-      notification.success({ message: user.message });
+      notification.success({ message: "Success" });
       dispatch(setAuthModal());
+      dispatch(setVerificationModal(e));
     } catch (error) {
       console.log(error);
       notification.error({ message: error.response.data.extraMessage });

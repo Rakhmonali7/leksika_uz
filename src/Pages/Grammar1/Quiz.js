@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { questions, questionById } from "../../lib/fetchQuestions";
 import Quiz from "react-quiz-component";
 
 function QuizTest() {
   // GETTING THE ID OF THE QUESTION
+  const ref = useRef();
   var query = window.location.href;
   var parts = query.split("/");
   var questionID = parts[parts.length - 1];
-
 
   const [quiz, setQuiz] = useState([]);
   const [showPrompt, setShowPrompt] = useState(false);
@@ -17,8 +17,8 @@ function QuizTest() {
     async function fetchQuestions() {
       const result = await questionById(questionID);
       // const data = await result.json();
-      console.log(await result, await result["data"])
-      setQuiz(await result["data"])
+      console.log(await result, await result["data"]);
+      setQuiz(await result["data"]);
     }
     fetchQuestions();
   }, []);
@@ -39,15 +39,14 @@ function QuizTest() {
         return q;
       });
 
-
       setShowPrompt(true);
       setModified(true);
     }
   }, [quiz]);
+
   return (
     <>
       <div className="quiz-start">
-
         {/* {quiz.length && showPrompt && console.log(quiz[0] )} */}
         {showPrompt && console.log(quiz, 1)}
         {showPrompt && <Quiz quiz={quiz} />}

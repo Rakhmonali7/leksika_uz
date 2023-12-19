@@ -11,12 +11,17 @@ import "./Search.css";
 import Example from "../Example/Example";
 import AdsComponent from "../../lib/AdSense";
 import { useDispatch } from "react-redux";
-import { setEnUzModal, setUzEnModal } from "../../redux/modalSlice";
+import {
+  setAuthModal,
+  setEnUzModal,
+  setUzEnModal,
+} from "../../redux/modalSlice";
 import { useAuthUser } from "react-auth-kit";
 import {
   useLocation,
   useHistory,
 } from "react-router-dom/cjs/react-router-dom.min";
+import { PlusOutlined } from "@ant-design/icons";
 
 function Search() {
   const history = useHistory();
@@ -209,18 +214,17 @@ function Search() {
                   }}
                 />
               </label>
-              {auth && (
-                <button
-                  className="search-mob-btn"
-                  onClick={() => {
-                    lang === "English-Uzbek"
-                      ? dispatch(setEnUzModal())
-                      : dispatch(setUzEnModal());
-                  }}
-                >
-                  +
-                </button>
-              )}
+              <button
+                className="search-mob-btn"
+                onClick={() => {
+                  if (!auth) return dispatch(setAuthModal());
+                  lang === "English-Uzbek"
+                    ? dispatch(setEnUzModal())
+                    : dispatch(setUzEnModal());
+                }}
+              >
+                <PlusOutlined />
+              </button>
             </div>
             <button
               className="clear_btn"
@@ -260,18 +264,17 @@ function Search() {
               </div>
             )}
           </div>
-          {auth && (
-            <button
-              className="search_add-btn"
-              onClick={() => {
-                lang === "English-Uzbek"
-                  ? dispatch(setEnUzModal())
-                  : dispatch(setUzEnModal());
-              }}
-            >
-              +
-            </button>
-          )}
+          <button
+            className="search_add-btn"
+            onClick={() => {
+              if (!auth) return dispatch(setAuthModal());
+              lang === "English-Uzbek"
+                ? dispatch(setEnUzModal())
+                : dispatch(setUzEnModal());
+            }}
+          >
+            <PlusOutlined style={{ fontSize: "38px" }} />
+          </button>
         </div>
         {components}
       </div>

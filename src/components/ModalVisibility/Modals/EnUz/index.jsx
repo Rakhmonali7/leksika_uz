@@ -16,18 +16,20 @@ const EnUzModal = () => {
   const { enUz } = useSelector((state) => state.modal);
 
   const onFinish = async (e) => {
+    console.log(auth);
     setLoading(true);
     try {
       const res = await axios({
         url: "https://api.leksika.uz/user/new-word/en-uz",
         method: "POST",
-        data: { ...e, ref_id: auth.id },
+        data: { ...e, ref_id: auth?.id },
       });
-      const user = res.data;
+      const user = res?.data;
 
       notification.success({ message: user.message });
       dispatch(setEnUzModal());
     } catch (error) {
+      console.log(error);
       notification.error({ message: "Your account has been banned!" });
     }
     form.resetFields();
