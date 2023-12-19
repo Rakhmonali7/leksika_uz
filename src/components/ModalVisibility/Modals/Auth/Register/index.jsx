@@ -42,20 +42,20 @@ const Register = () => {
       </p>
       <Form onFinish={onFinish}>
         <Form.Item
-          name="name"
+          name="nickname"
           rules={[
             {
               required: true,
-              message: "Please enter name!",
+              message: "Please enter nickname!",
             },
           ]}
         >
           <Input
             className="h-[40px] mt-[14px] border border-[#46A358]"
-            placeholder="Name"
+            placeholder="Nickname"
           />
         </Form.Item>
-        <Form.Item
+        {/* <Form.Item
           name="surname"
           rules={[
             {
@@ -68,7 +68,7 @@ const Register = () => {
             className="h-[40px] mt-[14px] border border-[#46A358]"
             placeholder="Surname"
           />
-        </Form.Item>
+        </Form.Item> */}
         <Form.Item
           name="email"
           rules={[

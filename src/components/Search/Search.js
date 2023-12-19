@@ -32,7 +32,7 @@ function Search() {
   const dispatch = useDispatch();
   const [English, setEnglish] = useState([]);
   const [Uzbek, setUzbek] = useState([]);
-  const [lang, setLang] = useState("English-Uzbek");
+  const [lang, setLang] = useState(searchParams.get("lang") ?? "English-Uzbek");
   const [components, setComponents] = useState(
     searchParams.get("s") && (
       <Result lang={lang} search={searchParams.get("s")} />
@@ -124,7 +124,7 @@ function Search() {
                 if (complete[i] != field) {
                   setField(complete[i]);
                 } else {
-                  history.push(`/en-uz?s=${field}`);
+                  history.push(`/en-uz?s=${field}&lang=${lang}`);
                   setComponents(<Result lang={lang} search={field} />);
                   setAutoComponent([]);
                 }
@@ -152,7 +152,7 @@ function Search() {
 
   function handleKeyPress(event) {
     if (event.key === "Enter") {
-      history.push(`/en-uz?s=${field}`);
+      history.push(`/en-uz?s=${field}&lang=${lang}`);
       setComponents(
         <Result lang={lang} search={field} uzb={Uzbek} eng={English} />
       );

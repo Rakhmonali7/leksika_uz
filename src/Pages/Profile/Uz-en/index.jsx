@@ -50,7 +50,7 @@ const UzEn = () => {
         style={{ backgroundColor: "#01756C" }}
         type="primary"
         icon={<PlusCircleOutlined />}
-        onClick={() => dispatch(setUzEnModal())}
+        onClick={() => dispatch(setUzEnEditStackModal())}
       >
         Uz-En
       </Button>
@@ -65,7 +65,9 @@ const UzEn = () => {
             actions={[
               <Tag color="warning">{value.status}</Tag>,
               <EditOutlined
-                onClick={() => dispatch(setUzEnEditStackModal(value))}
+                onClick={() =>
+                  dispatch(setUzEnEditStackModal({ ...value, type: "PUT" }))
+                }
                 key="edit"
               />,
               // <DeleteOutlined key="delete" />,

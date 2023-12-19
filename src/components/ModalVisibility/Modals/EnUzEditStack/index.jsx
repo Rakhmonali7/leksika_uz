@@ -7,8 +7,10 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { useForm } from "antd/es/form/Form";
 import ReactQuill from "react-quill";
 import { useQueryClient } from "react-query";
+import { useAuthUser } from "react-auth-kit";
 
 const EnUzEditStackModal = () => {
+  const auth = useAuthUser()();
   const queryClient = useQueryClient();
   const [form] = useForm();
   const dispatch = useDispatch();
@@ -18,14 +20,15 @@ const EnUzEditStackModal = () => {
   const onFinish = async (e) => {
     setLoading(true);
     try {
+      console.log(enUzEditStack.data);
       await axios({
         url: "https://api.leksika.uz/user/new-word/en-uz/edit",
-        method: "PUT",
-        data: { ...enUzEditStack.data, ...e },
+        method: enUzEditStack.data.type ?? "POST",
+        data: { ...enUzEditStack.data, ...e, ref_id: auth?.id ?? "" },
       });
 
       queryClient.setQueryData(["/en-uz", enUz], (oldQuery) => {
-        return oldQuery.map((value) =>
+        return oldQuery?.map((value) =>
           value.id === enUzEditStack.data.id
             ? { ...enUzEditStack.data, ...e }
             : value

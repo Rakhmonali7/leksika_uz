@@ -2,9 +2,8 @@ import { Button, Card, Empty, Tag, notification } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { setEnUzEditStackModal, setEnUzModal } from "../../../redux/modalSlice";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { EditOutlined } from "@ant-design/icons";
 import Meta from "antd/es/card/Meta";
-import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuthUser } from "react-auth-kit";
 import { useQuery } from "react-query";
@@ -64,7 +63,9 @@ const EnUz = () => {
             actions={[
               <Tag color="warning">{value.status}</Tag>,
               <EditOutlined
-                onClick={() => dispatch(setEnUzEditStackModal(value))}
+                onClick={() =>
+                  dispatch(setEnUzEditStackModal({ ...value, type: "PUT" }))
+                }
                 key="edit"
               />,
               // <DeleteOutlined key="delete" />,

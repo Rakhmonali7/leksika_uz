@@ -11,7 +11,9 @@ import { useDispatch } from "react-redux";
 import {
   setAuthModal,
   setEnUzEditModal,
+  setEnUzEditStackModal,
   setUzEnEditModal,
+  setUzEnEditStackModal,
 } from "../../redux/modalSlice";
 import { useAuthUser } from "react-auth-kit";
 
@@ -79,8 +81,10 @@ function ResulComponent(props) {
           onClick={() => {
             if (!auth) return dispatch(setAuthModal());
             props.lang === "Uzbek-English"
-              ? dispatch(setUzEnEditModal(props.data))
-              : dispatch(setEnUzEditModal(props.data));
+              ? dispatch(setUzEnEditStackModal({ ...props.data, type: "POST" }))
+              : dispatch(
+                  setEnUzEditStackModal({ ...props.data, type: "POST" })
+                );
           }}
           className={classes.search_btn_search}
         >

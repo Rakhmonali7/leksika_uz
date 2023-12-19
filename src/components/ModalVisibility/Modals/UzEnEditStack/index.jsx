@@ -20,7 +20,7 @@ const UzEnEditStackModal = () => {
     try {
       await axios({
         url: "https://api.leksika.uz/user/new-word/uz-en/edit",
-        method: "PUT",
+        method: uzEnStackEdit.data.type ?? "POST",
         data: { ...uzEnStackEdit.data, ...e },
       });
 
