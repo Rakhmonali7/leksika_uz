@@ -7,8 +7,10 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { useForm } from "antd/es/form/Form";
 import ReactQuill from "react-quill";
 import { useQueryClient } from "react-query";
+import { useAuthUser } from "react-auth-kit";
 
 const UzEnEditStackModal = () => {
+  const auth = useAuthUser()();
   const queryClient = useQueryClient();
   const [form] = useForm();
   const dispatch = useDispatch();
@@ -21,11 +23,11 @@ const UzEnEditStackModal = () => {
       await axios({
         url: "https://api.leksika.uz/user/new-word/uz-en/edit",
         method: uzEnStackEdit.data.type ?? "POST",
-        data: { ...uzEnStackEdit.data, ...e },
+        data: { ...uzEnStackEdit.data, ...e, ref_id: auth?.id ?? "" },
       });
 
       queryClient.setQueryData(["/uz-en", uzEn], (oldQuery) => {
-        return oldQuery.map((value) =>
+        return oldQuery?.map((value) =>
           value.id === uzEnStackEdit.data.id
             ? { ...uzEnStackEdit.data, ...e }
             : value
@@ -46,7 +48,10 @@ const UzEnEditStackModal = () => {
     <Modal
       centered
       open={uzEnStackEdit.open}
-      onCancel={() => dispatch(setUzEnEditStackModal())}
+      onCancel={() => {
+        dispatch(setUzEnEditStackModal());
+        form.resetFields();
+      }}
       title="Uz-En word edit"
       footer={false}
     >
@@ -110,7 +115,10 @@ const UzEnEditStackModal = () => {
         <Form.Item>
           <Space style={{ display: "flex", justifyContent: "end" }}>
             <Button
-              onClick={() => dispatch(setUzEnEditStackModal())}
+              onClick={() => {
+                dispatch(setUzEnEditStackModal());
+                form.resetFields();
+              }}
               htmlType="button"
             >
               Cancel
