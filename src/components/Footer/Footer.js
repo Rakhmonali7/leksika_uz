@@ -1,16 +1,16 @@
-import React from "react";
-import classes from "./Footer.module.css";
+import React from 'react';
+import classes from './Footer.module.css';
 import {
   TbBrandTelegram,
   TbBrandFacebook,
   TbBrandYoutube,
-  TbBrandGmail
-} from "react-icons/tb";
+  TbBrandGmail,
+} from 'react-icons/tb';
 function Footer() {
   return (
     <footer className={classes.footer}>
       <div className={classes.footerContainer}>
-        <p> © 2022 — 2023 Leksika.uz </p>
+        <p> © 2022 — 2024 Leksika.uz </p>
         <ul>
           <li>
             <a href="https://leksika.uz/PrivacyPolicy.html">Privacy Policy</a>
@@ -32,9 +32,9 @@ function Footer() {
           </li>
           <li>
             <a href="mailto:asqararslonov2008@gmail.com">
-                <TbBrandGmail/>
-              </a>
-              </li>
+              <TbBrandGmail />
+            </a>
+          </li>
         </ul>
       </div>
     </footer>
